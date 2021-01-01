@@ -1,0 +1,14 @@
+/tracks:
+  get:
+    description: Returns pets based on ID
+    summary: Find pets by ID
+    operationId: getPetsById
+    responses:
+      '200':
+        description: pet response
+        content:
+          'application/json' :
+            schema:
+              type: array
+              items:
+                $ref: './components.yaml#/components/schemas/Pet'

@@ -1,0 +1,64 @@
+/playlists:
+  get:
+    description: Returns All Playlists
+    summary: Get all playlists
+    operationId: getPlaylists
+
+    responses:
+      '200':
+        description: Playlists Response
+        content:
+          'application/json':
+            schema:
+              type: array
+              items:
+                $ref: './components.yaml#/components/schemas/Playlist'
+
+  post:
+    description: Create a playlist
+    summary: Create a new playlist
+    operationId: createPlaylist
+
+    requestBody:
+      content:
+        "application/json":
+          schema:
+            $ref: './components.yaml#/components/schemas/CreatePlaylistPayload'
+
+    responses:
+      '200':
+        description: Playlists Response
+        content:
+          'application/json':
+            schema:
+              type: array
+              items:
+                $ref: './components.yaml#/components/schemas/Playlist'
+
+
+/playlists/{id}:
+  get:
+    description: Returns a playlist with the id provided
+    summary: Get all playlists
+    operationId: getPlaylist
+
+    parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: string
+
+    responses:
+      200:
+        description: Playlists Response
+        content:
+          'application/json':
+            schema:
+              $ref: './components.yaml#/components/schemas/Playlist'
+      404:
+        description: No found
+        content:
+          'application/json':
+            schema:
+              $ref: '../../components.yaml#/components/schemas/GeneralError'

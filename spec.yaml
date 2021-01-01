@@ -1,0 +1,105 @@
+openapi: 3.0.3
+info:
+  title: Playlist API
+  description: Manages playlists for things
+  version: 0.1.9
+servers:
+  - url: 'http://localhost:8080'
+    description: 'Optional server description, e.g. Main (production) server'
+paths:
+  /tracks:
+    get:
+      description: Returns pets based on ID
+      summary: Find pets by ID
+      operationId: getPetsById
+      responses:
+        '200':
+          description: pet response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    test:
+                      type: string
+  /playlists:
+    get:
+      description: Returns All Playlists
+      summary: Get all playlists
+      operationId: getPlaylists
+      responses:
+        '200':
+          description: Playlists Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1playlists~1%7Bid%7D/get/responses/200/content/application~1json/schema'
+    post:
+      description: Create a playlist
+      summary: Create a new playlist
+      operationId: createPlaylist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                userId:
+                  type: string
+      responses:
+        '200':
+          description: Playlists Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1playlists~1%7Bid%7D/get/responses/200/content/application~1json/schema'
+  '/playlists/{id}':
+    get:
+      description: Returns a playlist with the id provided
+      summary: Get all playlists
+      operationId: getPlaylist
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Playlists Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  name:
+                    type: string
+                  userId:
+                    type: string
+                  createdAt:
+                    type: string
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    format: date-time
+        '404':
+          description: No found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
