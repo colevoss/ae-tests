@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: Main Branch Check
-        if: ${{ startsWith(github.ref, 'refs/heads/main') }}
+        if: ${{ !startsWith(github.ref, 'refs/heads/main') }}
         run: |
           exit 1
 
