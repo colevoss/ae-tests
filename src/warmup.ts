@@ -15,6 +15,6 @@ export class WarmUpRoute extends Route<WarmUpRouter> {
 }
 
 export class WarmUpRouter extends Router {
-  route = '_ah/';
+  route = '/_ah';
   routes = [WarmUpRoute];
 }
