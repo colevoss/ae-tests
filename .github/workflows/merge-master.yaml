@@ -25,6 +25,8 @@ jobs:
 
       - name: Tag Version
         run: |
+          git config user.email "voss.cole@gmail.com"
+          git config user.name "Cole Voss"
           git tag -a $VERSION -m 'v$VERSION Release'
           git push origin $VERSION
 
