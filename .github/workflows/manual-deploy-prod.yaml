@@ -8,10 +8,13 @@ jobs:
 
     steps:
       - name: Main Branch Check
-        # if: ${{ github.head_ref == "" }}
+        if: ${{ github.ref != "refs/heads/main" }}
         run: |
-          echo $GITHUB_REF
-          echo ${{ github.ref }}
+          exit 1
+
+      - name: TEST
+        run: |
+          echo "HOWDY EVERYONE"
       # - uses: actions/checkout@v2
       # - uses: actions/setup-node@v2
       #   with:
