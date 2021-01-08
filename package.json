@@ -16,14 +16,10 @@
     "prettier": "prettier",
     "gcp-build": "npx prisma generate && npm run build",
     "up": "docker-compose up",
-    "up:d": "npm run up -- -d",
+    "up:background": "npm run up -- -d",
     "up:build": "npm run up -- --build",
     "logs": "docker-compose logs -f app",
-    "down": "docker-compose down",
-    "spec": "swagger-cli bundle src/spec.yaml -o spec.yaml -t yaml",
-    "spec:val": "swagger-cli validate src/spec.yaml",
-    "spec:view": "swagger-cli bundle src/spec.yaml -t yaml",
-    "idk": "concurrently --raw \"node ./build/index.js\" \"node ./build/index.js\""
+    "down": "docker-compose down"
   },
   "author": "",
   "license": "ISC",

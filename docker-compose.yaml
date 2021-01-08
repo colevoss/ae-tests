@@ -6,7 +6,7 @@ services:
     build:
       context: .
       target: build
-    command: npm run dev:app
+    command: npm run dev
     entrypoint: ./docker-entrypoint.sh
     volumes:
       - './:/app'
