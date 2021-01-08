@@ -12,8 +12,8 @@ env_variables:
   APP_ENGINE_URL: "https://test-project-40236.uc.r.appspot.com"
   TEST: ${TEST:-"NOTTEST"}
 
-inbound_services:
-- warmup
+# inbound_services:
+# - warmup
 
-automatic_scaling:
-  min_instances: 1
+# automatic_scaling:
+#   min_instances: 1
