@@ -1,9 +1,6 @@
-name: Merge Master
+name: Deploy To Staging
  
-on:
-  workflow_dispatch:
-    tags:
-      description: "Deploys a branch to staging"
+on: workflow_dispatch
 
 jobs:
   CI:
