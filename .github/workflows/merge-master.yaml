@@ -15,9 +15,18 @@ jobs:
         with:
           node-version: '14'
 
-      # - name: Install Dependencies
-      #   run: |
-      #     npm ci
+      - name: Install Dependencies
+        run: |
+          npm ci
+
+      - name: Set Version
+        run: |
+          echo "VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
+
+      - name: Tag Version
+        run: |
+          git tag -a $VERSION -m 'v$VERSION Release'
+          git push origin $VERSION
 
       # - name: Build App (TS)
       #   run: |
