@@ -10,7 +10,7 @@ jobs:
       - name: Main Branch Check
         if: ${{ !startsWith(github.ref, 'refs/heads/main') }}
         run: |
-          echo "Deployment to prod must be from main branch"
+          echo "::error Deployment to prod must be from main branch"
           exit 1
 
       - uses: actions/checkout@v2
