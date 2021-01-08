@@ -10,22 +10,6 @@
       "cwd": "${workspaceRoot}",
       "protocol": "inspector",
       "remoteRoot": "/app"
-    },
-    {
-      "type": "node",
-      "request": "attach",
-      "name": "Attach Worker",
-      "port": 9228,
-      "sourceMaps": true,
-      "cwd": "${workspaceRoot}",
-      "protocol": "inspector",
-      "remoteRoot": "/app"
-    },
-  ],
-  "compounds": [
-    {
-      "name": "Debug",
-      "configurations": ["Attach App", "Attach Worker"]
     }
   ]
 }
