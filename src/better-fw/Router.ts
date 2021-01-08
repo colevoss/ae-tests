@@ -46,7 +46,7 @@ export class Router<S extends Server = Server> extends Loggable {
   }
 
   protected loggerFactory() {
-    return this.server.logger.child({ router: this.route });
+    return this.server.logger.child({ router: this.route }) as Logger;
   }
 
   private registerRoutes() {

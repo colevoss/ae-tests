@@ -24,6 +24,13 @@ export class GetPlaylist extends Route<PlaylistRouter> {
       where: {
         id: Number(id),
       },
+      include: {
+        tracks: {
+          where: {
+            active: true,
+          },
+        },
+      },
     });
 
     if (!result) {
@@ -33,5 +40,6 @@ export class GetPlaylist extends Route<PlaylistRouter> {
     }
 
     resp.json(result);
+    this.logger.info({ playlistId: id }, 'Successfully queried for playlist');
   }
 }

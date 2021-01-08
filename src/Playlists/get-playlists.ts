@@ -19,5 +19,7 @@ export class GetPlaylists extends Route<PlaylistRouter> {
     const playlists = await this.db.playlist.findMany();
 
     res.json(playlists);
+
+    this.logger.info('Successfully got playlists');
   }
 }

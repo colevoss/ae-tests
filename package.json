@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "14.x.x"
+  },
   "scripts": {
     "tsc": "tsc",
     "test": "jest",
@@ -11,14 +14,20 @@
     "dev": "nodemon --config nodemon.json --inspect=0.0.0.0 src/index.ts",
     "build": "npm run tsc",
     "prettier": "prettier",
+    "gcp-build": "npx prisma generate && npm run build",
+    "up": "docker-compose up",
+    "up:d": "npm run up -- -d",
+    "up:build": "npm run up -- --build",
+    "logs": "docker-compose logs -f app",
+    "down": "docker-compose down",
     "spec": "swagger-cli bundle src/spec.yaml -o spec.yaml -t yaml",
     "spec:val": "swagger-cli validate src/spec.yaml",
-    "spec:view": "swagger-cli bundle src/spec.yaml -t yaml"
+    "spec:view": "swagger-cli bundle src/spec.yaml -t yaml",
+    "idk": "concurrently --raw \"node ./build/index.js\" \"node ./build/index.js\""
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@prisma/cli": "^2.13.1",
     "@types/compression": "^1.7.0",
     "@types/cors": "^2.8.9",
     "@types/express": "^4.17.9",
@@ -53,11 +62,17 @@
   },
   "dependencies": {
     "@apidevtools/swagger-cli": "^4.0.4",
+    "@google-cloud/pubsub": "^2.7.0",
+    "@prisma/cli": "^2.13.1",
     "@prisma/client": "^2.13.1",
     "compression": "^1.7.4",
+    "concurrently": "^5.3.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "firebase-admin": "^9.4.2",
     "helmet": "^4.3.1",
+    "nats": "^1.4.12",
     "openapi-markdown": "^1.2.3",
     "pino": "^6.8.0",
     "pino-pretty": "^4.3.0"

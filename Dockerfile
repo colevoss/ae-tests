@@ -30,6 +30,9 @@ COPY --from=build /app/package*.json ./
 COPY --from=build /app/build ./build
 COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/docker-entrypoint.sh ./
+COPY --from=build /app/gcloud-auth.json ./
+
+ENV GOOGLE_APPLICATION_CREDENTIALS=/app/gcloud-auth.json
 
 # I wonder how we deal with this???
 COPY --from=build /app/.env ./.env

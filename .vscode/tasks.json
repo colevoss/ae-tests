@@ -1,0 +1,37 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "up",
+			"problemMatcher": [],
+			"label": "npm: up",
+			"detail": "docker-compose up -d",
+			"group": "build"
+		},
+		{
+			"type": "npm",
+			"script": "up:build",
+			"problemMatcher": [],
+			"label": "npm: up:build",
+			"detail": "docker-compose up -d --build",
+			"group": "build"
+		},
+		{
+			"type": "npm",
+			"script": "down",
+			"problemMatcher": [],
+			"label": "npm: down",
+			"detail": "docker-compose down",
+			"group": "build"
+		},
+		{
+			"type": "npm",
+			"script": "logs",
+			"problemMatcher": [],
+			"label": "npm: logs",
+			"detail": "docker-compose down",
+			"group": "build"
+		}
+	]
+}

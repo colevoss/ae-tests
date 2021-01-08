@@ -9,15 +9,28 @@ datasource db {
 }
 
 model Playlist {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int                @id @default(autoincrement())
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
   name      String
   userId    String
+  tracks    TracksInPlaylist[]
 }
 
 model Track {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int                @id @default(autoincrement())
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  playlists TracksInPlaylist[]
+}
+
+model TracksInPlaylist {
+  id         Int      @id @default(autoincrement())
+  playlist   Playlist @relation(fields: [playlistId], references: [id])
+  playlistId Int
+  track      Track    @relation(fields: [trackId], references: [id])
+  trackId    Int
+  addedAt    DateTime @default(now())
+  plays      Int      @default(0)
+  active     Boolean  @default(true)
 }

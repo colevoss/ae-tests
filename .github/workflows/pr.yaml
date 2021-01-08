@@ -14,17 +14,17 @@ jobs:
         with:
           node-version: '12'
 
-      - name: Install
-        run: npm ci
+      # - name: Install
+      #   run: npm ci
 
-      - name: Build
-        run: npm run build --if-present
+      # - name: Build
+      #   run: npm run build --if-present
 
-      - name: Test
-        run: npm test
+      # - name: Test
+      #   run: npm test
 
-      - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
-        with:
-          name: code-coverage-report
-          path: coverage
+      # - name: Archive code coverage results
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: code-coverage-report
+      #     path: coverage

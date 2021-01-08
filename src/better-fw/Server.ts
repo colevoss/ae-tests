@@ -5,13 +5,18 @@ import { Logger, createLogger } from './Logger';
 import { HttpError, HttpErrors } from './Errors';
 import * as helmet from 'helmet';
 import * as cors from 'cors';
+import * as compression from 'compression';
+import { Subscriber, brokerRepository, Broker } from '../broker';
 
 export class Server extends Loggable {
   public app: express.Express;
   // public routers: InitClassType<R>[];
+  public broker: Broker;
+  public subscribers: any[];
   public routers: any[];
   public port?: number;
   public logger: Logger;
+  public middleware: express.RequestHandler[] = [];
 
   constructor() {
     super();
@@ -25,7 +30,18 @@ export class Server extends Loggable {
     this.app.use(cors());
     this.app.use(helmet());
     this.app.use(express.json());
+    this.app.use(compression());
     this.app.use(this.addServerToRequestMiddleware.bind(this));
+  }
+
+  private async initEventBroker<S extends InitClassType<Subscriber>>() {
+    this.broker = brokerRepository(this);
+
+    if (this.subscribers && this.subscribers.length) {
+      for (const subscriber of this.subscribers as S[]) {
+        this.broker.subscribe(subscriber);
+      }
+    }
   }
 
   private addServerToRequestMiddleware(
@@ -62,6 +78,10 @@ export class Server extends Loggable {
 
   private registerMiddleware() {
     this.registerInternalMiddleware();
+
+    for (const mid of this.middleware) {
+      this.app.use(mid);
+    }
   }
 
   private appPort() {
@@ -95,6 +115,8 @@ export class Server extends Loggable {
       this.logger.error({ err }, 'Error occurred during beforeStart hook');
     }
 
+    await this.broker.start();
+
     const port = this.appPort();
 
     this.app.listen(port, () => {
@@ -107,6 +129,7 @@ export class Server extends Loggable {
     const inst = new this(...args);
     inst.initLogger();
 
+    inst.initEventBroker();
     inst.registerMiddleware();
     inst.registerRouters();
 

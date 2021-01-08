@@ -10,9 +10,7 @@ export class CreatePlaylist extends Route<PlaylistRouter> {
 
   constructor(
     r: PlaylistRouter,
-    private db: PrismaClient = new PrismaClient({
-      log: ['query', 'info'],
-    }),
+    private db: PrismaClient = new PrismaClient(),
   ) {
     super(r);
   }
@@ -26,7 +24,7 @@ export class CreatePlaylist extends Route<PlaylistRouter> {
       data: input,
     });
 
-    this.logger.debug(
+    this.logger.info(
       { playlistId: result.id },
       'Successfully created new playlist',
     );

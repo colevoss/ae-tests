@@ -1,5 +1,12 @@
+import * as dotenv from 'dotenv';
 import { App } from './app';
+
+dotenv.config();
 
 const app = App.new();
 
-app.start();
+async function main() {
+  await app.start();
+}
+
+main();
