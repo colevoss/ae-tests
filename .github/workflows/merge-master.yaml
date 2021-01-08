@@ -44,4 +44,4 @@ jobs:
           TEST: "HOWDY"
         run: |
           ./scripts/prepare-app-deployment.sh staging
-          gcloud app deploy app-staging-deployment.yaml --quiet
+          gcloud app deploy app-staging-deployment.yaml --quiet --verbosity info
