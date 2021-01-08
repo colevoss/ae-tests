@@ -18,6 +18,6 @@ export class Home extends Route<HomeRouter> {
     ctx.logger.info({ test: 'hello', userId: req.userId }, 'hello');
     ctx.publish('home.event', { hello: 'there' });
     const cpuCount = cpus().length;
-    res.json({ cpuCount });
+    res.json({ hello: 'FROM GITHUB' });
   }
 }

@@ -43,5 +43,5 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           TEST: "HOWDY"
         run: |
-          ./scripts/prepare-app-deployment staging
+          ./scripts/prepare-app-deployment.sh staging
           gcloud app deploy app.yaml --quiet
