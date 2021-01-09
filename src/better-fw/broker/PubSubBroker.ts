@@ -1,10 +1,10 @@
 import { PubSub, Topic, Subscription, Message } from '@google-cloud/pubsub';
 import { Subscriber } from './Subscriber';
-import { createLogger, Logger } from '../better-fw/Logger';
-import { InitClassType } from '../better-fw/types';
-import { Event, EventMetadata } from './Event';
+import { createLogger, Logger } from '../Logger';
+import { InitClassType } from '../types';
+import { EventMetadata } from './Event';
 import { Broker } from './Broker';
-import { Server } from '../better-fw';
+import { Server } from '..';
 
 export class PubSubBroker extends Broker {
   public logger: Logger;

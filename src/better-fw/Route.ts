@@ -1,8 +1,6 @@
-import * as express from 'express';
-import * as pino from 'pino';
-import { Loggable, Method } from './types';
+import { Loggable, Method, NextFunction } from './types';
 import { Router } from './Router';
-import { ClassType } from './types';
+import { ClassType, Request, Response } from './types';
 import { Context } from './Context';
 import { Logger } from './Logger';
 
@@ -29,11 +27,10 @@ export abstract class Route<R extends Router = Router> extends Loggable {
   }
 
   abstract handler(
-    req: express.Request,
-    resp: express.Response,
     context: Context,
-  ): // next?: express.NextFunction,
-  PromiseLike<any>;
+    req: Request,
+    resp: Response,
+  ): PromiseLike<any>;
 
   static init<R extends Route>(this: ClassType<R>, ...args: any[]) {
     const inst = new this(...args);
@@ -44,14 +41,13 @@ export abstract class Route<R extends Router = Router> extends Loggable {
   }
 
   public async requestHandler(
-    req: express.Request,
-    resp: express.Response,
-    next: express.NextFunction,
+    req: Request,
+    resp: Response,
+    next: NextFunction,
   ) {
     const context = new Context(this, req, resp);
     try {
-      // await this.handler(req, resp, next);
-      await this.handler(req, resp, context);
+      await this.handler(context, req, resp);
     } catch (err) {
       next(err);
     }

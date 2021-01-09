@@ -2,7 +2,14 @@ import * as express from 'express';
 import { Route } from './Route';
 import { Server } from './Server';
 import { Logger } from './Logger';
-import { ClassType, InitClassType, Loggable } from './types';
+import {
+  ClassType,
+  InitClassType,
+  Loggable,
+  Response,
+  Request,
+  NextFunction,
+} from './types';
 
 export class Router<S extends Server = Server> extends Loggable {
   public route: string = '/';
@@ -20,9 +27,9 @@ export class Router<S extends Server = Server> extends Loggable {
   }
 
   private addRouterToRequestMiddleware(
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction,
+    req: Request,
+    res: Response,
+    next: NextFunction,
   ) {
     // @ts-ignore
     req.routerClass = this;
@@ -30,11 +37,7 @@ export class Router<S extends Server = Server> extends Loggable {
   }
 
   private addRouteToRequestMiddleware<R extends Route>(route: R) {
-    return (
-      req: express.Request,
-      res: express.Response,
-      next: express.NextFunction,
-    ) => {
+    return (req: Request, res: Response, next: NextFunction) => {
       // @ts-ignore
       req.routeClass = route;
       next();

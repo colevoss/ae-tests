@@ -1,5 +1,5 @@
 import { Broker } from './Broker';
-import { Logger } from '../better-fw/Logger';
+import { Logger } from '../Logger';
 import { Subscriber } from './Subscriber';
 
 export interface EventMetadata {
@@ -8,7 +8,10 @@ export interface EventMetadata {
   topic: string;
 }
 
-// Might want to rename to Context
+/**
+ * Class to be passed to Subscriber handler functions that encapulates event payloads,
+ * metadata, and requestId's as well as event/request scoped logging and event publishing
+ */
 export class Event<D = any, B extends Broker = Broker> {
   public data: D;
   public broker: B;
@@ -24,6 +27,9 @@ export class Event<D = any, B extends Broker = Broker> {
     this.logger = this.loggerFactory();
   }
 
+  /**
+   * Publish a message to a topic and include the request id for request tracing
+   */
   async publish<D>(topic: string, data: D, meta?: EventMetadata) {
     const publishMeta = {
       ...this.meta,
@@ -33,6 +39,13 @@ export class Event<D = any, B extends Broker = Broker> {
     await this.broker.publish(topic, data, publishMeta);
   }
 
+  /**
+   * Determines the log key for the request id for tracing purposes. If we are in
+   * production, use Google Logging's specified log key so we can trace logs for
+   * this request in the logs.
+   *
+   * @see https://cloud.google.com/logging/docs/agent/configuration#special-fields
+   */
   private requestIdLogKey() {
     if (process.env.NODE_ENV === 'production') {
       return 'logging.googleapis.com/trace';
@@ -41,6 +54,11 @@ export class Event<D = any, B extends Broker = Broker> {
     return 'requestId';
   }
 
+  /**
+   * In production, use the Google logging trace format
+   *
+   * @see https://cloud.google.com/logging/docs/agent/configuration#special-fields
+   */
   private requestIdValue() {
     if (process.env.NODE_ENV === 'production') {
       return `projects/${

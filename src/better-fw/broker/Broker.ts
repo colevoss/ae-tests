@@ -1,6 +1,6 @@
-import { Logger } from '../better-fw/Logger';
-import { InitClassType, Loggable } from '../better-fw/types';
-import { Server } from '../better-fw';
+import { Logger } from '../Logger';
+import { InitClassType } from '../types';
+import { Server } from '..';
 import { Subscriber } from './Subscriber';
 import { EventMetadata, Event } from './Event';
 

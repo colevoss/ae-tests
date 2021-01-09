@@ -1,4 +1,11 @@
-import { Route, Method, Request, Response, HttpErrors } from '../better-fw';
+import {
+  Route,
+  Method,
+  Request,
+  Response,
+  HttpErrors,
+  Context,
+} from '../better-fw';
 import { PrismaClient, Playlist } from '@prisma/client';
 import { PlaylistRouter } from './index';
 
@@ -13,7 +20,7 @@ export class GetPlaylists extends Route<PlaylistRouter> {
     super(router);
   }
 
-  async handler(req: Request, res: Response<Playlist[]>) {
+  async handler(ctx: Context, req: Request, res: Response<Playlist[]>) {
     this.logger.debug('Getting playlists');
 
     const playlists = await this.db.playlist.findMany();

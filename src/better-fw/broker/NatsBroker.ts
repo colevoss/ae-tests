@@ -1,10 +1,10 @@
 import * as nats from 'nats';
 import { Broker } from './Broker';
 import { Subscriber } from './Subscriber';
-import { InitClassType } from '../better-fw/types';
-import { createLogger, Logger } from '../better-fw/Logger';
+import { InitClassType } from '../types';
+import { createLogger, Logger } from '../Logger';
 import { EventMetadata } from './Event';
-import { Server } from '../better-fw';
+import { Server } from '..';
 
 export const DEFAULT_NATS_CONFIG = {
   json: true,

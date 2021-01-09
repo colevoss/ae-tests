@@ -1,4 +1,4 @@
-import { Router, Method, Request, Response } from '../better-fw';
+import { Router } from '../better-fw';
 import { Home } from './home';
 import { App } from '../app';
 import { PubSubTest } from './pubsub';

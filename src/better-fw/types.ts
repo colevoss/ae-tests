@@ -1,12 +1,13 @@
 import { Logger } from './Logger';
 
+export { Request, Response, NextFunction, RequestHandler } from 'express';
+
 export enum Method {
   Get = 'get',
   Post = 'post',
   Put = 'put',
 }
 
-// export type ClassType<T> = new (...args: any[]) => T;
 export type ClassType<T> = {
   new (...args: any[]): T;
 };
