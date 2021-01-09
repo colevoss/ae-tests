@@ -1,4 +1,11 @@
-import { Route, Method, Request, Response, HttpErrors } from '../better-fw';
+import {
+  Route,
+  Method,
+  Request,
+  Response,
+  HttpErrors,
+  Context,
+} from '../better-fw';
 import { TracksRouter } from './';
 
 export class GetTrack extends Route<TracksRouter> {
@@ -9,7 +16,7 @@ export class GetTrack extends Route<TracksRouter> {
     super(r);
   }
 
-  async handler(req: Request, res: Response) {
+  async handler(ctx: Context, req: Request, res: Response) {
     this.logger.info({ test: 'hello' }, 'hello');
     res.json({ test: 'hello!!!!!!!!!!' });
   }

@@ -1,4 +1,4 @@
-import { Subscriber, Event } from '../broker';
+import { Subscriber, Event } from '../better-fw';
 
 interface Payload {
   hello: string;

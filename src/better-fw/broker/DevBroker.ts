@@ -1,10 +1,10 @@
 import { EventEmitter } from 'events';
 import { Subscriber } from './Subscriber';
-import { InitClassType } from '../better-fw/types';
-import { createLogger, Logger } from '../better-fw/Logger';
-import { Event, EventMetadata } from './Event';
+import { InitClassType } from '../types';
+import { createLogger, Logger } from '../Logger';
+import { EventMetadata } from './Event';
 import { Broker } from './Broker';
-import { Server } from '../better-fw';
+import { Server } from '..';
 
 export class DevBroker extends Broker {
   logger: Logger;

@@ -1,4 +1,11 @@
-import { Route, Method, Request, Response, HttpErrors } from '../better-fw';
+import {
+  Route,
+  Method,
+  Request,
+  Response,
+  HttpErrors,
+  Context,
+} from '../better-fw';
 import { PrismaClient, Playlist } from '@prisma/client';
 import { PlaylistRouter } from './index';
 
@@ -17,7 +24,11 @@ export class GetPlaylist extends Route<PlaylistRouter> {
     super(r);
   }
 
-  async handler(req: Request<GetPlaylistParams>, resp: Response<Playlist>) {
+  async handler(
+    ctx: Context,
+    req: Request<GetPlaylistParams>,
+    resp: Response<Playlist>,
+  ) {
     const id = req.params.id;
 
     const result = await this.db.playlist.findUnique({

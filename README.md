@@ -1,63 +1,99 @@
-# Typescript Node Boilerplate
+# SERVICE
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+## Getting Started
 
-## What
+To run this project locally along with its external dependencies (Databases, Event Brokers), you will
+need to have Docker installed. You can do that by downloading and installing it from the [Docker website](https://www.docker.com/products/docker-desktop).
 
-This is a template repo that will get you writing a TypeScript Node application
-in not time. Click [here](https://github.com/colevoss/typescript-node-boilerplate/generate) to create a new repo with this template.
+## Starting Service
 
-## How
+Using Docker Compose, the service can be started in a couple different ways.
 
-Use this template by clicking [here](https://github.com/colevoss/typescript-node-boilerplate/generate)
-and cloning your new repository
-
-### Testing
+### Up
 
 ```bash
-npm test
+npm run up
 ```
 
-Testing has been set up using [jest](https://jestjs.io/) and [ts-jest](https://github.com/kulshekhar/ts-jest).
-Run tests with `npm test`. Coverage is turned on and thresholds set to 80%. Test files must be named
-`<name>.test.ts` and placed in the `test` in the root of the project.
+Using `npm run up` will use [docker-compose](https://docs.docker.com/compose/) to start all services.
+See the documentation for [`docker-compose up`](https://docs.docker.com/compose/reference/up/) for more details.
 
-### Building
+In short, this command will start all services and expose the app service at [localhost:8080](http://localhost:8080).
+
+#### Background Mode
 
 ```bash
-npm run build
+npm run up:background
 ```
 
-This will clean the `build` directory and recompile the TypeScript code into the `build` directory.
+This command will start the service and dependencies like `npm run up` but will exit after the containers
+are started and running allowing you to continue to use that terminal session. This uses `docker-compose`'s
+`--detach` flag. If you need to see the logs for the service or other running containers, run the following
+from the this repo's directory.
 
-### Git Hooks
+```bash
+npm run logs
+```
 
-#### Pre-Commit
+#### Force Build
 
-##### Prettier
+```bash
+npm run up:build
+```
 
-Prettier is ran against all `.ts`, `.js`, `.md`, `.json`, and `.yaml` files with the `--write` flag, so files will be corrected and re-staged.
+This command will force Docker Compose to rebuild all containers before starting them. This might be
+useful if you have made changes since the last time you up'd the service and the changes aren't being
+picked up. The `--build` flag isn't used in the `npm run up` command to make that command quicker for
+the average use.
 
-##### Tests
+### Down
 
-All tests are ran before the commit is initialized.
+To stop (or force stop) all running containers in this project, run `npm run down`. If you aren't running
+the service in background mode, using `Ctrl + C` in the running terminal session will attempt to stop
+all running containers.
 
-#### Pre-Commit Message
+## Development
 
-This project is set up with [commitizen](https://github.com/commitizen/cz-cli). To commit changes,
-stage your changes with `git add`. Then initialize the commit with `git commit` and you will be prompted
-with the commitizen Conventional Changelog commit message options. Complete the prompts given by commitizen,
-review your message in the default git commit message composer, and finally save. (Don't for get to push)
+When running the application with `npm run up` (or its variants), making changes and saving the source
+code will live reload the server in the container, allowing you to really speed along in your cool feature
+development or bug squashing. Go get 'em, Speed Racer!
 
-### CI/CD
+### Debugging
 
-#### Pull Requests
+When running the service in any mode (background or foreground), you can attach a debugger on port `9229`
+and use some nice debugging features.
 
-A Github Action is ran on every pull request creation and push to an open PR that will build, test, and
-archive the test coverage as an artifact of the build.
+This repo contains a [VSCode Debugging Command](/.vscode/launch.json) that, when used, will allow you
+to do things like set break points, step through the code, and inspect local variables.
 
-## Todo
+To use this functionality, press `F5` while in VSCode or navigate to the `Run` menu in the sidebar and
+click the Play button at the top next to `Attach App`
 
-- [ ] Explain VSCode Launch Tasks
-- [ ] Create master branch merge Github Action
-- [ ] Explore linting options
+## Deployment
+
+This Project is hosted in Google App Engine. Ideally you cannot deploy any code to App Engine from a
+local machine, and will need to rely on our CI/CD pipelines set up in Github Actions.
+
+### Pull Requests
+
+When a pull request is merged to the `main` branch, a Github Action is started and will build the app,
+run tests* and deploy that version of the application to the Staging environment in App Engine
+
+### Manual Staging Deploy
+
+You can manually deploy a branch to staging by using the `Run Workflow` button for the [Deploy To Staging](https://github.com/colevoss/ae-tests/actions?query=workflow%3A%22Deploy+To+Staging%22) workflow and choosing the branch to deploy.
+
+### Manual Production Deploy
+
+At this time, all deployments to production are done manually through our Github Actions. Much like the
+Deploy To Staging workflow, using the [Deploy To Production](https://github.com/colevoss/ae-tests/actions?query=workflow%3A%22Deploy+To+Production%22) workflow will deploy to Production. Although the `Run Workflow` prompt gives you the
+option to select a branch to deploy, selecting any branch other than `main` will fail the workflow and
+not allow you to deploy. 
+
+## References
+
+* [Docker](https://docs.docker.com/)
+* [Docker Desktop](https://www.docker.com/products/docker-desktop)
+* [Docker Compose](https://docs.docker.com/compose/)
+* [VSCode Debugger](https://code.visualstudio.com/docs/editor/debugging)
+* [Google App Engine](https://cloud.google.com/appengine/docs/standard/nodejs)

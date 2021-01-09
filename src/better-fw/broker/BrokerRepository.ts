@@ -1,5 +1,4 @@
-import { Broker } from './Broker';
-import { Server } from '../better-fw/Server';
+import { Server } from '../Server';
 import { PubSubPushBroker } from './PubSubPushBroker';
 import { PubSubBroker } from './PubSubBroker';
 import { DevBroker } from './DevBroker';

@@ -23,7 +23,7 @@ export class HealthCheck extends Route<EventsRouter> {
     super(r);
   }
 
-  async handler(req: Authed<Request>, res: Response, ctx: Context) {
+  async handler(ctx: Context, req: Authed<Request>, res: Response) {
     ctx.logger.info({ healthy: 'OK' }, 'Health Check');
     res.json({ ok: 'ok' });
   }

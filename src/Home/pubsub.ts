@@ -4,7 +4,7 @@ export class PubSubTest extends Route {
   route = '/pubsub';
   type = Method.Post;
 
-  async handler(req: Request, res: Response) {
+  async handler(ctx: Context, req: Request, res: Response) {
     // const messageBuffer = req.body.message.data;
     // const messageStr = messageBuffer.toString();
     const message = Buffer.from(req.body.message.data, 'base64').toString(

@@ -1,14 +1,11 @@
 import * as express from 'express';
 import { Subscriber } from './Subscriber';
-import { createLogger, Logger } from '../better-fw/Logger';
+import { createLogger, Logger } from '../Logger';
 import { Broker } from './Broker';
 import { PubSub, Topic, Subscription } from '@google-cloud/pubsub';
-import { InitClassType } from '../better-fw/types';
-import { Server } from '../better-fw';
+import { InitClassType } from '../types';
+import { Server } from '..';
 import { EventMetadata } from './Event';
-
-// const APP_ENGINE_URL =
-// 'https://playlist-service-dot-test-project-40236.uc.r.appspot.com';
 
 export class PubSubPushBroker extends Broker {
   public logger: Logger;
