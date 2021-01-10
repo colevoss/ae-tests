@@ -9,6 +9,7 @@ import {
   RequestHandler,
 } from './types';
 import { Router } from './Router';
+// import { Router } from '../another-fw/Router';
 import { Logger, createLogger } from './Logger';
 import { HttpError, HttpErrors } from './Errors';
 import * as helmet from 'helmet';
@@ -21,12 +22,9 @@ import { Subscriber, brokerRepository, Broker } from './broker';
  * their endpoints. Also registers event handlers to an environment specific Event
  * Broker.
  */
-export class Server extends Loggable {
+export abstract class Server extends Loggable {
   public app: express.Express;
-  // public routers: InitClassType<R>[];
   public broker: Broker;
-  public subscribers: any[];
-  public routers: any[];
   public port?: number;
   public logger: Logger;
   public middleware: RequestHandler[] = [];
@@ -34,6 +32,11 @@ export class Server extends Loggable {
   constructor() {
     super();
     this.app = express();
+  }
+
+  protected abstract routers(): void;
+  protected subscribers() {
+    this.logger.info('No subscribers to register');
   }
 
   /**
@@ -60,11 +63,11 @@ export class Server extends Loggable {
   private async initEventBroker<S extends InitClassType<Subscriber>>() {
     this.broker = brokerRepository(this);
 
-    if (this.subscribers && this.subscribers.length) {
-      for (const subscriber of this.subscribers as S[]) {
-        this.broker.subscribe(subscriber);
-      }
-    }
+    this.subscribers();
+  }
+
+  protected registerSubscriber(subscriber: InitClassType<Subscriber>) {
+    this.broker.subscribe(subscriber);
   }
 
   /**
@@ -140,12 +143,14 @@ export class Server extends Loggable {
     return 8080;
   }
 
-  private registerRouters<R extends Router>() {
-    for (const routerType of this.routers as InitClassType<R>[]) {
-      const router = routerType.init(this);
-
-      this.app.use(router.route, router.router);
-    }
+  protected registerRouter(routerType: InitClassType<Router>) {
+    const router = routerType.init(this);
+    // this.logger.notice(
+    //   router.logData,
+    //   'Registering service router %s',
+    //   router.route,
+    // );
+    this.app.use(router.route, router.router);
   }
 
   protected loggerFactory() {
@@ -181,7 +186,7 @@ export class Server extends Loggable {
 
     inst.initEventBroker();
     inst.registerMiddleware();
-    inst.registerRouters();
+    inst.routers();
 
     inst.app.use(inst.errorHandlerMiddleware.bind(inst));
     return inst;

@@ -20,7 +20,7 @@ export class NatsBroker extends Broker {
   constructor(server: Server) {
     super(server);
     this.logger = createLogger().child({
-      type: 'NatsBroker',
+      broker: 'NatsBroker',
     }) as Logger;
 
     this.connection = nats.connect(DEFAULT_NATS_CONFIG);

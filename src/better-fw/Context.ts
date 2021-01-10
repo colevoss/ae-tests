@@ -1,3 +1,4 @@
+import * as express from 'express';
 import { Route } from './Route';
 import { Request, Response } from './types';
 import { Logger } from './Logger';

@@ -21,12 +21,12 @@ export class PubSubPushBroker extends Broker {
     this.router = express.Router();
     this.router.use(express.json());
     this.logger = createLogger().child({
-      type: 'PubSubPushBroker',
+      broker: 'PubSubPushBroker',
     }) as Logger;
   }
 
   public async start() {
-    this.logger.info('Registering PubSub Push Router');
+    this.logger.notice('Registering PubSub Push Router');
     this.server.app.use('/pubsub', this.router);
 
     await this.initTopics();
@@ -50,7 +50,7 @@ export class PubSubPushBroker extends Broker {
   }
 
   private async initTopics() {
-    this.logger.info('Initializing Topics');
+    this.logger.notice('Initializing Topics');
     const topicPromises: PromiseLike<any>[] = [];
 
     this.topics.forEach((topic, name) => {
@@ -61,7 +61,7 @@ export class PubSubPushBroker extends Broker {
   }
 
   private async initTopic(topic: Topic) {
-    this.logger.info({ topic: topic.name }, 'Initializing PubSub Topic');
+    this.logger.notice({ topic: topic.name }, 'Initializing PubSub Topic');
     const [topicExists] = await topic.exists();
 
     if (topicExists) {
@@ -69,18 +69,18 @@ export class PubSubPushBroker extends Broker {
       return topic;
     }
 
-    this.logger.debug(
+    this.logger.notice(
       { topic: topic.name },
       'Topic does not exist. Creating new PubSub Topic',
     );
     const [createdTopic] = await topic.create();
 
-    this.logger.info({ topic: topic.name }, 'Pubsub Topic created.');
+    this.logger.notice({ topic: topic.name }, 'Pubsub Topic created.');
     return createdTopic;
   }
 
   private async initSubscriptions() {
-    this.logger.info('Initializing Subscriptions');
+    this.logger.notice('Initializing Subscriptions');
     const subscriptionPromises: PromiseLike<any>[] = [];
 
     for (const subscriber of this.subscribers) {
@@ -94,7 +94,7 @@ export class PubSubPushBroker extends Broker {
     const topic = this.topics.get(subscriber.topic);
     let subscription = topic.subscription(subscriber.name);
 
-    this.logger.info(subscriber.logData, 'Initializing Subscription');
+    this.logger.notice(subscriber.logData, 'Initializing Subscription');
 
     const [subscriptionExists] = await subscription.exists();
 
@@ -111,7 +111,7 @@ export class PubSubPushBroker extends Broker {
     subscriber: Subscriber,
     subscription: Subscription,
   ) {
-    this.logger.info(
+    this.logger.notice(
       subscriber.logData,
       'Creating PubSub Push Subscription for topic',
     );
@@ -139,7 +139,7 @@ export class PubSubPushBroker extends Broker {
     subscriber: Subscriber,
     subscription: Subscription,
   ) {
-    this.logger.info(
+    this.logger.notice(
       subscriber.logData,
       'Ensuring PubSub Push subscription is valid',
     );
@@ -158,7 +158,7 @@ export class PubSubPushBroker extends Broker {
         subscriptionMetadata.pushConfig?.pushEndpoint === pushEndpoint;
 
       if (!isValid) {
-        this.logger.info(
+        this.logger.notice(
           subscriber.logData,
           'Subscription is not valid. Deleting Subscription and creating a new one.',
         );
@@ -166,7 +166,7 @@ export class PubSubPushBroker extends Broker {
         return await this.createSubscription(subscriber, subscription);
       }
 
-      this.logger.info(subscriber.logData, 'Subscription is valid');
+      this.logger.notice(subscriber.logData, 'Subscription is valid');
 
       return ensuringSubscription;
     } catch (err) {
@@ -183,7 +183,7 @@ export class PubSubPushBroker extends Broker {
   public subscribe<S extends InitClassType<Subscriber>>(subClass: S) {
     const subscriber = subClass.init(this);
     const route = this.getRouteFromSubscriber(subscriber);
-    this.logger.info(`Initializing event handler at /pubsub${route}`);
+    this.logger.notice(`Initializing event handler at /pubsub${route}`);
 
     const topic = this.pubsub.topic(subscriber.topic);
 

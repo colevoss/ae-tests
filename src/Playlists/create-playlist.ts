@@ -1,33 +1,25 @@
-import {
-  Route,
-  Method,
-  Request,
-  Response,
-  HttpErrors,
-  Context,
-} from '../better-fw';
-import { PrismaClient, Playlist } from '@prisma/client';
+import { Route, Method } from '../better-fw';
+import { PrismaClient, Playlist, Prisma } from '@prisma/client';
 import { PlaylistRouter } from './index';
 
-type Input = Partial<Playlist>;
+type Input = Prisma.PlaylistCreateInput;
 
-export class CreatePlaylist extends Route<PlaylistRouter> {
-  route = '';
-  type = Method.Post;
+export class CreatePlaylist extends Route {
+  static route = '';
+  static type = Method.Post;
+
+  body: Input;
+  response: Playlist;
 
   constructor(
-    r: PlaylistRouter,
+    router: PlaylistRouter,
     private db: PrismaClient = new PrismaClient(),
   ) {
-    super(r);
+    super(router);
   }
 
-  async handler(
-    ctx: Context,
-    req: Request<{}, Input>,
-    resp: Response<Playlist>,
-  ) {
-    const input = req.body;
+  async handler() {
+    const input = this.body;
 
     this.logger.debug({ input }, 'Creating new playlist');
 
@@ -40,6 +32,6 @@ export class CreatePlaylist extends Route<PlaylistRouter> {
       'Successfully created new playlist',
     );
 
-    resp.json(result);
+    this.send(result);
   }
 }

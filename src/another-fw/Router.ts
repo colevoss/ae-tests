@@ -50,7 +50,7 @@ export abstract class Router extends Loggable {
     return this.server.logger.child({ router: this.route }) as Logger;
   }
 
-  static init(this: ClassType<Router>, ...args: any[]): Router {
+  static init<R extends Router>(this: ClassType<R>, ...args: any[]) {
     const inst = new this(...args);
     inst.initLogger();
     inst.registerMiddleware();

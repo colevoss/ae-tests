@@ -15,7 +15,7 @@ export class PubSubBroker extends Broker {
 
     this.pubsub = new PubSub();
     this.logger = createLogger().child({
-      type: 'PubSubBroker',
+      broker: 'PubSubBroker',
     }) as Logger;
   }
 

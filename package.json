@@ -19,7 +19,8 @@
     "up:background": "npm run up -- -d",
     "up:build": "npm run up -- --build",
     "logs": "docker-compose logs -f app",
-    "down": "docker-compose down"
+    "down": "docker-compose down",
+    "ac": "autocannon"
   },
   "author": "",
   "license": "ISC",
@@ -30,6 +31,7 @@
     "@types/jest": "^26.0.19",
     "@types/node": "^14.14.17",
     "@types/pino": "^6.3.4",
+    "autocannon": "^7.0.1",
     "commitizen": "^4.2.2",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^4.3.6",

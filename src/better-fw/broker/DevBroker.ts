@@ -14,7 +14,7 @@ export class DevBroker extends Broker {
     super(server);
     this.emitter = new EventEmitter();
 
-    this.logger = createLogger().child({ type: 'DevBroker' }) as Logger;
+    this.logger = createLogger().child({ broker: 'DevBroker' }) as Logger;
   }
 
   publish(topic: string, data: any, meta?: EventMetadata) {
